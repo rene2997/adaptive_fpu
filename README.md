@@ -3,5 +3,6 @@ An adaptive that is integrated into the Wildcat design as an optional extension 
 
 
 ## Compile
+To run the TCL-script ensure that Vivado is in your system path. 
+'vivado -mode batch -source setup.tcl'
 
-TCL-script
