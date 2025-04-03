@@ -50,3 +50,5 @@ obj_dir/
 
 # Env
 .env
+__Previews/
+History/
