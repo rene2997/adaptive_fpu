@@ -1,0 +1,17 @@
+2 memories, try read and write , try each mmoery.
+
+
+
+
+
+also port for floating point unit (have dm there to check if it works rightly)
+
+
+
+To check if the write appears in the two memories. 
+
+
+
+what is baig
+
+
