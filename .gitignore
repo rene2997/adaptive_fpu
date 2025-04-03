@@ -14,38 +14,39 @@
 *.sim/
 *.hw/
 
+# Chisel / Scala build output
 target/
-*.o
-*.vcd
-*.bin
 *.fir
 *.json
-.metals/
-.bsp/
+*.class
+*.bin
+*.o
+a.out
+
+# SBT build
+project/target/
+project/project/
 
 # Verilator / simulation
 obj_dir/
 *.vcd
 
-# Temp and backup files
-*.tar.gz
-*.tar.xz
-*.swp
-*.tmp
-*.class
-*.o
-a.out
-
-# Docker artifacts
-*.img
-*.tar
-*.bak
-
-# Scala/Chisel
-target/
-project/target/
-project/project/
-
-# IDEA/VSCode metadata
+# Editor / IDE
 .idea/
 .vscode/
+.metals/
+.bsp/
+
+# Temp / backup
+*.swp
+*.tmp
+*.tar.gz
+*.tar.xz
+*.bak
+
+# Docker
+*.img
+*.tar
+
+# Env
+.env
