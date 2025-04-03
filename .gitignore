@@ -1,0 +1,42 @@
+# Vivado build output
+*.bit
+*.dcp
+*.jou
+*.log
+*.str
+*.xml
+*.pb
+*.html
+*.xpr
+*.xpr.cache
+*.runs/
+*.ip_user_files/
+*.sim/
+*.hw/
+
+# Verilator / simulation
+obj_dir/
+*.vcd
+
+# Temp and backup files
+*.tar.gz
+*.tar.xz
+*.swp
+*.tmp
+*.class
+*.o
+a.out
+
+# Docker artifacts
+*.img
+*.tar
+*.bak
+
+# Scala/Chisel
+target/
+project/target/
+project/project/
+
+# IDEA/VSCode metadata
+.idea/
+.vscode/
