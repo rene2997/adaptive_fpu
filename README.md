@@ -10,11 +10,6 @@ docker build -t wildcat-env .
 ```bash
 docker run -it -v $(pwd):/app wildcat-env
 ````
-To build, run, and test Wildcat use the following 
-```bash
-cd wildcat
-make APP=asm/apps/blink.s hw
-```
 
 For amd64 architectures use the following commands instead.
 ```bash
