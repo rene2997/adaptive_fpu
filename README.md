@@ -3,19 +3,34 @@ An adaptive that is integrated into the Wildcat design as an optional extension 
 
 
 ## Compile
-To run setup the docker environment you need to build and then run it.
+To run setup the docker environment for x86_64 architectures you need to build and then run it. 
 ```bash
 docker build -t wildcat-env .
 ````
 ```bash
 docker run -it -v $(pwd):/app wildcat-env
 ````
-To build, run, and test Wildcat use the following.
+To build, run, and test Wildcat use the following 
 ```bash
 cd wildcat
 make APP=asm/apps/blink.s hw
 ```
 
+For amd64 architectures use the following commands instead.
+```bash
+docker build --platform=linux/amd64 -t wildcat-env .
+````
+```bash
+docker run --platform=linux/amd64 -it -v $(pwd):/app wildcat-env
+````
+To build, run, and test Wildcat use the following 
+```bash
+cd wildcat
+make APP=asm/apps/blink.s hw
+```
+
+
+## TCL-script in Vivado
 
 To run the TCL-script ensure that Vivado is in your system path. 
 ```bash
