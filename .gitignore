@@ -52,3 +52,22 @@ obj_dir/
 .env
 __Previews/
 History/
+
+# macOS system files
+.DS_Store
+
+# Chisel generated files
+generated/
+*.v
+*.f
+
+# Chisel/Verilator generated files
+wildcat/generated/
+*.v
+*.fir
+*.anno.json
+data*.hex
+
+# Chisel/Verilog generated files
+wildcat/generated/
+wildcat/data*.hex
