@@ -21,8 +21,17 @@ docker run --platform=linux/amd64 -it -v $(pwd):/app wildcat-env
 To build, run, and test Wildcat use the following 
 ```bash
 cd wildcat
-make APP=asm/apps/blink.s hw
+make APP=asm/apps/fp_operation.s hw
 ```
+
+## Test in verilator
+
+
+
+
+## TCL-script in Vivado
+
+
 
 
 ## TCL-script in Vivado
