@@ -22,7 +22,9 @@ To build, run, and test Wildcat use the following
 ```bash
 cd wildcat
 make APP=asm/apps/fp_operation.s hw
+sbt "testOnly wildcat.DummyFpuTest"
 ```
+
 
 ## Test in verilator
 
