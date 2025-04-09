@@ -39,6 +39,7 @@ class DecodedInstr extends Bundle {
 }
 
 class FpuIO extends Bundle {
+  val start  = Input(Bool())
   val op     = Input(UInt(3.W))
   val a      = Input(UInt(32.W))
   val b      = Input(UInt(32.W))

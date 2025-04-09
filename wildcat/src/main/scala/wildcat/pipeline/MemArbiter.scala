@@ -21,11 +21,13 @@ class MemArbiter extends Module {
   val aReg  = Reg(UInt(32.W))
   val bReg  = Reg(UInt(32.W))
   val opReg = RegInit(0.U(3.W))
+  val startReg = RegInit(false.B)
 
   // default: FPU disabled
   io.fpu.a := aReg
   io.fpu.b := bReg
   io.fpu.op := opReg
+  io.fpu.start := startReg
 
   // FSM: idle → gotA → gotB → start → wait
   val sIdle  = 0.U
@@ -50,12 +52,12 @@ class MemArbiter extends Module {
     }
 
     is(sGotB) {
-      opReg := 1.U  // Trigger computation
+      startReg := true.B
       state := sWait
     }
 
     is(sWait) {
-      opReg := 0.U  // Clear trigger
+      startReg := false.B
       when(io.fpu.done) {
         state := sIdle
       }

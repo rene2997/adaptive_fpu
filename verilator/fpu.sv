@@ -5,6 +5,7 @@ module fpu #(
     parameter int BRAM_WIDTH = 10,
     parameter int DATA_WIDTH = 32
 ) (
+    input start,
     input clk,
     input [2:0] op, // 000 is IDLE
     input [31:0] ab,
