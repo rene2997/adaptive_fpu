@@ -10,7 +10,7 @@ import wildcat.pipeline._
 class DummyFpuWrapper extends Module {
   val io = IO(new Bundle {
     val cpu     = Flipped(new MemIO())
-    val fpuDone = Output(Bool()) // <- Add this properly to IO bundle
+    val fpuDone = Output(Bool())
   })
 
   // instantiate modules
@@ -60,7 +60,6 @@ class DummyFpuTest extends AnyFlatSpec with ChiselScalatestTester {
         waitCycles += 1
       }
 
-      // Read back result from FPU-mapped address
       c.io.cpu.rdAddress.poke(FPU_TOP.U)
       c.clock.step()
 

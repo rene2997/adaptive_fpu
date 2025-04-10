@@ -2,19 +2,20 @@
 PROJECT := adaptive_fpu
 TOP_MODULE ?= WildcatTop
 TEST_MODULE ?= test_memory
+FPU := fpu.sv
 
-# Directory layout
+# directory layout
 SRC_DIR := ../wildcat/generated
-TB_DIR := .           # Testbench directory is current
-OBJ_DIR := obj_dir    # Verilator will generate obj_dir/
+TB_DIR := .
+OBJ_DIR := obj_dir    # verilator will generate obj_dir/
 
-# File lists
+# file lists
 SRCS := $(wildcard $(SRC_DIR)/*.v)
-TB   := $(TEST_MODULE).v
+TB   := $(TEST_MODULE).sv
 
-# Verilator compilation
+# verilator compilation
 $(OBJ_DIR)/V$(TEST_MODULE): $(TB) $(SRCS)
-	verilator --cc $(TB) $(SRCS) \
+	verilator --cc $(TB) $(SRCS) $(FPU) \
 		--top-module $(TEST_MODULE) \
 		--Mdir $(OBJ_DIR) \
 		--exe --trace
@@ -26,7 +27,6 @@ $(OBJ_DIR)/V$(TEST_MODULE): $(TB) $(SRCS)
 test: $(OBJ_DIR)/V$(TEST_MODULE)
 	./$(OBJ_DIR)/V$(TEST_MODULE)
 
-# Clean
 clean:
 	rm -rf $(OBJ_DIR) *.vcd
 
