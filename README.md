@@ -27,12 +27,7 @@ sbt "testOnly wildcat.DummyFpuTest"
 
 
 ## Test in verilator
-
-
-
-
-## TCL-script in Vivado
-
+To utilize verilator for testing 
 
 
 
