@@ -13,6 +13,7 @@ class MemArbiter extends Module {
 
   val rdData = WireDefault(io.dmem.rdData) // Default: read from DMEM
 
+
   // default: connect CPU <-> DMEM
   io.dmem <> io.cpu
   io.cpu.stall := io.dmem.stall
@@ -24,6 +25,8 @@ class MemArbiter extends Module {
   val startReg = RegInit(false.B)
 
   // default: FPU disabled
+  io.fpu.clock := clock
+  io.fpu.reset := reset
   io.fpu.a := aReg
   io.fpu.b := bReg
   io.fpu.op := opReg
@@ -58,7 +61,7 @@ class MemArbiter extends Module {
 
     is(sWait) {
       startReg := false.B
-      when(io.fpu.done) {
+      when(io.fpu.result_rdy_out) {
         state := sIdle
       }
     }
@@ -66,7 +69,7 @@ class MemArbiter extends Module {
 
   // Override memory read result when accessing FPU and done
   val fpuRead = (io.cpu.rdAddress === FPU_BASE.U || io.cpu.rdAddress === FPU_TOP.U)
-  when(fpuRead && io.fpu.done) {
+  when(fpuRead && io.fpu.result_rdy_out) {
     rdData := io.fpu.result
     io.dmem.rdEnable := false.B
   }

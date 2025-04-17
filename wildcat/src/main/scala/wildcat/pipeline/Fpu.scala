@@ -5,6 +5,6 @@ import chisel3.util._
 import wildcat.pipeline.FpuIO
 
 class FPU extends BlackBox {
-  val io = IO(new FpuIO)
+  val io = IO(new FpuIO())
   override def desiredName: String = "fpu" // This sets the Verilog module name
 }

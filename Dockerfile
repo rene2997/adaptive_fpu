@@ -16,9 +16,35 @@ RUN curl -LO https://github.com/riscv-collab/riscv-gnu-toolchain/releases/downlo
  && tar -xzf riscv64-elf-ubuntu-20.04-gcc-nightly-2023.11.22-nightly.tar.gz -C /opt/riscv --strip-components=1 \
  && rm riscv64-elf-ubuntu-20.04-gcc-nightly-2023.11.22-nightly.tar.gz
 
+
 ENV PATH="/opt/riscv/bin:$PATH"
 
 CMD ["/bin/bash"]
 
+
+# Install build dependencies for Verilator
 RUN apt-get update && \
-    apt-get install -y verilator
+    apt-get install -y \
+    git autoconf g++ flex bison make \
+    libfl2 libfl-dev zlib1g-dev \
+    libgoogle-perftools-dev numactl perl \
+    libexpat1-dev libunwind-dev \
+    help2man libbz2-dev \
+    libncurses5-dev libncursesw5-dev \
+    ccache
+
+
+# Clone and build Verilator from source
+RUN git clone https://github.com/verilator/verilator.git /opt/verilator && \
+    cd /opt/verilator && \
+    git checkout v5.034 && \
+    autoconf && \
+    ./configure && \
+    make -j$(nproc) && \
+    make install && \
+    rm -rf /opt/verilator
+
+
+
+# Make sure new Verilator is in PATH
+ENV PATH="/usr/local/bin:$PATH"

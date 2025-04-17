@@ -39,10 +39,12 @@ class DecodedInstr extends Bundle {
 }
 
 class FpuIO extends Bundle {
+  val clock  = Input(Clock())
+  val reset  = Input(Bool())
   val start  = Input(Bool())
   val op     = Input(UInt(3.W))
   val a      = Input(UInt(32.W))
   val b      = Input(UInt(32.W))
   val result = Output(UInt(32.W))
-  val done   = Output(Bool())
+  val result_rdy_out   = Output(Bool())
 }

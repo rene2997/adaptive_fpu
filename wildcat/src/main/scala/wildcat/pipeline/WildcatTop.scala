@@ -37,7 +37,10 @@ class WildcatTop(file: String, dmemNrByte: Int = 4096) extends Module {
   val fpu = Module(new FPU())
 
   // Connect CPU memory interface (StandardFive expects wrEnable as UInt)
+  fpu.io.clock := this.clock
+  fpu.io.reset := this.reset
   fpu.io <> memArbiter.io.fpu
+
   memArbiter.io.dmem <> dmem.io
   memArbiter.io.cpu <> cpu.io.dmem
 
