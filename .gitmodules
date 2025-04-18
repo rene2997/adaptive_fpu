@@ -1,0 +1,6 @@
+[submodule "external/param_fpu"]
+	path = external/param_fpu
+	url = https://github.com/V0XNIHILI/parametrizable-floating-point-verilog
+[submodule "external/fpu"]
+	path = external/fpu
+	url = https://github.com/dawsonjon/fpu
