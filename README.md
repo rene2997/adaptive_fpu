@@ -18,16 +18,15 @@ docker build --platform=linux/amd64 -t wildcat-env .
 ```bash
 docker run --platform=linux/amd64 -it -v $(pwd):/app wildcat-env
 ````
-To build, run, and test Wildcat use the following 
-```bash
-cd wildcat
-make APP=asm/apps/fp_operation.s hw
-sbt "testOnly wildcat.DummyFpuTest"
-```
-
 
 ## Test in verilator and gtkwave
-To utilize verilator for testing and gtkwave for a graphical waveform representation use the following
+To utilize verilator for testing the fpu and the memory_arbiter you need to utilize the makefile.
+```bash
+cd verilator
+make test-mem
+```
+
+For a graphical waveform representation gtkwave can be utilized if the aditional parameters are used in the docker initialization.
 ```bash
 docker run -it \
   --env DISPLAY=$DISPLAY \
