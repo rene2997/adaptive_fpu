@@ -1,44 +1,44 @@
-module test_memarbiter;
+`timescale 1ns/1ps
 
-  logic clock;
-  logic [31:0] cpu_rd_addr, cpu_rd_data;
-  logic [31:0] cpu_wr_addr, cpu_wr_data;
-  logic cpu_wr_en0, cpu_wr_en1, cpu_wr_en2, cpu_wr_en3;
+module test_mem_arbiter;
+  // clock & reset
+  reg  clk = 0;
+  reg  rst = 1;
 
-  logic [31:0] dmem_rd_addr, dmem_rd_data;
-  logic [31:0] dmem_wr_addr, dmem_wr_data;
-  logic dmem_wr_en0, dmem_wr_en1, dmem_wr_en2, dmem_wr_en3;
+  // DUT I/Os
+  wire [15:0] led;
+  wire        tx;
+  reg         rx = 1;      // idle high on UART RX
 
-  logic [2:0] fpu_op;
-  logic [31:0] fpu_ab, fpu_result;
-  logic fpu_done;
-
-  MemArbiter uut (
-    .clock(clock),
-    .io_cpu_rdAddress(cpu_rd_addr),
-    .io_cpu_rdData(cpu_rd_data),
-    .io_cpu_wrAddress(cpu_wr_addr),
-    .io_cpu_wrData(cpu_wr_data),
-    .io_cpu_wrEnable_0(cpu_wr_en0),
-    .io_cpu_wrEnable_1(cpu_wr_en1),
-    .io_cpu_wrEnable_2(cpu_wr_en2),
-    .io_cpu_wrEnable_3(cpu_wr_en3),
-
-    .io_dmem_rdAddress(dmem_rd_addr),
-    .io_dmem_rdData(dmem_rd_data),
-    .io_dmem_wrAddress(dmem_wr_addr),
-    .io_dmem_wrData(dmem_wr_data),
-    .io_dmem_wrEnable_0(dmem_wr_en0),
-    .io_dmem_wrEnable_1(dmem_wr_en1),
-    .io_dmem_wrEnable_2(dmem_wr_en2),
-    .io_dmem_wrEnable_3(dmem_wr_en3),
-
-    .io_fpu_op(fpu_op),
-    .io_fpu_ab(fpu_ab),
-    .io_fpu_result(fpu_result),
-    .io_fpu_done(fpu_done)
+  // instantiate your top‑level
+  WildcatTop dut (
+    .clock(clk),
+    .reset(rst),
+    .io_led(led),
+    .io_tx(tx),
+    .io_rx(rx)
   );
 
-  // Add mock memory, clock gen, and assertions here
+  // clock: 10 ns period (100 MHz)
+  always #5 clk = ~clk;
 
+  initial begin
+    // dump waves for GTKWave
+    $dumpfile("tb.vcd");
+    $dumpvars(0, test_mem_arbiter);
+
+
+    // hold reset for 100 ns
+    #100;
+    rst = 0;
+
+    // Optionally: drive some rx pulses here for UART receive
+    // e.g. send ASCII “A” (0x41) at 115200 baud…
+    // you’d have to stretch bits at ~8.68 μs per bit, etc.
+
+    // let it run for 1 ms
+    #1_000_000;
+
+    $finish;
+  end
 endmodule

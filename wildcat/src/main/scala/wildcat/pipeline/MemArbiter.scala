@@ -61,7 +61,7 @@ class MemArbiter extends Module {
 
     is(sWait) {
       startReg := false.B
-      when(io.fpu.result_rdy_out) {
+      when(io.fpu.done) {
         state := sIdle
       }
     }
@@ -69,7 +69,7 @@ class MemArbiter extends Module {
 
   // Override memory read result when accessing FPU and done
   val fpuRead = (io.cpu.rdAddress === FPU_BASE.U || io.cpu.rdAddress === FPU_TOP.U)
-  when(fpuRead && io.fpu.result_rdy_out) {
+  when(fpuRead && io.fpu.done) {
     rdData := io.fpu.result
     io.dmem.rdEnable := false.B
   }

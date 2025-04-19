@@ -25,7 +25,7 @@ class DummyFpu extends Module {
   val result = regA + regB
   val done   = RegNext(start, false.B)
 
-  io.result := Mux(io.result_rdy_out, result, 0.U)
-  io.result_rdy_out   := done
+  io.result := Mux(io.done, result, 0.U)
+  io.done   := done
 
 }

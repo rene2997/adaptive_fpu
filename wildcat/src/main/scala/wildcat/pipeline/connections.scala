@@ -46,5 +46,5 @@ class FpuIO extends Bundle {
   val a      = Input(UInt(32.W))
   val b      = Input(UInt(32.W))
   val result = Output(UInt(32.W))
-  val result_rdy_out   = Output(Bool())
+  val done   = Output(Bool())
 }

@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+
 module test_fpu;
 
     // Parameters
@@ -18,7 +19,7 @@ module test_fpu;
     logic result_rdy_out;
 
     // Instantiate your FPU
-    fpu DUT (
+    fpu_wrapper fpu (
         .start(start),
         .clock(clock),
         .reset(reset),
@@ -26,7 +27,7 @@ module test_fpu;
         .a(a),
         .b(b),
         .result(result),
-        .result_rdy_out(result_rdy_out)
+        .done(result_rdy_out)
     );
 
     initial begin
@@ -40,6 +41,10 @@ module test_fpu;
     always #10ns clock = ~clock;
 
     initial begin
+
+        $dumpfile("wave.vcd");
+        $dumpvars(0, test_fpu); // dumps everything under test_fpu  
+        clock = 0;
         reset = 1;
         start = 0;
         a = 0;
@@ -52,8 +57,7 @@ module test_fpu;
 
   typedef enum logic [1:0] {
       LOAD_INPUT,
-      WAIT_RESULT,
-      CHECK_RESULT
+      WAIT_RESULT
   } state_t;
 
   state_t state;
@@ -61,6 +65,9 @@ module test_fpu;
   int fd, dummy, line_num;
   string line;
 
+    initial begin
+    #1000000 $display("Timeout: simulation took too long"); $finish;
+    end
 
   // Clocked process
   always_ff @(posedge clock) begin
@@ -83,16 +90,15 @@ module test_fpu;
           WAIT_RESULT: begin
               start <= 0;
               if (result_rdy_out) begin
-                  state <= CHECK_RESULT;
-              end
-          end
-
-          CHECK_RESULT: begin
-              if (result === expected_result)
-                  $display("PASS: Got %h, expected %h", result, expected_result);
-              else
-                  $display("FAIL: Got %h (operand a %h, operand b %h ), expected %h", result, a_hex, b_hex, expected_result);
-              state <= LOAD_INPUT;
+                  if (result === expected_result) begin
+                    $display("PASS: Got %h, expected %h", result, expected_result);
+                    state <= LOAD_INPUT;
+                  end else begin
+                    $display("FAIL: Got %d (operand a %d, operand b %d ), expected %d", result, a_hex, b_hex, expected_result);
+                    state <= LOAD_INPUT;
+                  end
+              end else
+                state <= WAIT_RESULT;
           end
 
           default: begin
