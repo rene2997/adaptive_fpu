@@ -5,6 +5,7 @@ TEST_MODULE ?= test_fpu  # Default testbench
 
 # Directory layout
 SRC_DIR := ../external 
+SRC_DIR += ../wildcat/generated
 TB_DIR := .
 OBJ_DIR := obj_dir
 APP := fp_operation.S
@@ -12,6 +13,7 @@ APP := fp_operation.S
 # File lists
 SRCS := ../external/fpu/multiplier/multiplier.v
 SRCS += ../external/fpu_wrapper.sv
+SRCS += $(wildcard ../wildcat/generated/*.v)
 TB   := $(TEST_MODULE).sv
 
 # Verilator compilation
