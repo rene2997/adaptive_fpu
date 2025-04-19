@@ -26,9 +26,16 @@ sbt "testOnly wildcat.DummyFpuTest"
 ```
 
 
-## Test in verilator
-To utilize verilator for testing 
-
+## Test in verilator and gtkwave
+To utilize verilator for testing and gtkwave for a graphical waveform representation use the following
+```bash
+docker run -it \
+  --env DISPLAY=$DISPLAY \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix \
+  -v $(pwd):/app \
+  wildcat-env \
+  bash
+```
 
 
 ## TCL-script in Vivado
