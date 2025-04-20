@@ -8,9 +8,9 @@ module test_mem_arbiter;
   // DUT I/Os
   wire [15:0] led;
   wire        tx;
-  reg         rx = 1;      // idle high on UART RX
+  reg         rx = 1;
 
-  // instantiate your top‑level
+  // Instantiate DUT
   WildcatTop dut (
     .clock(clk),
     .reset(rst),
@@ -19,24 +19,21 @@ module test_mem_arbiter;
     .io_rx(rx)
   );
 
-  // clock: 10 ns period (100 MHz)
+  // Clock generation
   always #5 clk = ~clk;
 
   initial begin
-    // dump waves for GTKWave
+    // Dump VCD for waveform
     $dumpfile("tb.vcd");
     $dumpvars(0, test_mem_arbiter);
 
-
-    // hold reset for 100 ns
+    // Reset
     #100;
     rst = 0;
 
-    // Optionally: drive some rx pulses here for UART receive
-    // e.g. send ASCII “A” (0x41) at 115200 baud…
-    // you’d have to stretch bits at ~8.68 μs per bit, etc.
+    // Optional: simulate UART RX
 
-    // let it run for 1 ms
+    // Let simulation run
     #1_000_000;
 
     $finish;

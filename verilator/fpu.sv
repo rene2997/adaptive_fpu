@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module fpu #(
+module fpu_wrapper #(
     parameter int BRAM_WIDTH = 10,
     parameter int DATA_WIDTH = 32
 ) (
@@ -11,14 +11,14 @@ module fpu #(
     input  logic [31:0] a,
     input  logic [31:0] b,
     output logic [31:0] result,
-    output logic        result_rdy_out
+    output logic        done
 );
 
     logic [31:0] temp_result;
     logic [4:0]  counter;
 
     // Combinational assignment of result_rdy_out
-    assign result_rdy_out = (counter == 31);
+    assign done = (counter == 31);
 
     always_ff @(posedge clock or posedge reset) begin
         if (reset) begin

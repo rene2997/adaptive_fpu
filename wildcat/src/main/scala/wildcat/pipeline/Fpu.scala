@@ -6,5 +6,5 @@ import wildcat.pipeline.FpuIO
 
 class FPU extends BlackBox {
   val io = IO(new FpuIO())
-  override def desiredName: String = "fpu" // This sets the Verilog module name
+  override def desiredName: String = "fpu_wrapper" // This sets the Verilog module name
 }

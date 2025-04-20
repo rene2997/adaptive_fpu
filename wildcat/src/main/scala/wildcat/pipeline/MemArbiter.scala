@@ -11,10 +11,7 @@ class MemArbiter extends Module {
     val fpu  = Flipped(new FpuIO())
   })
 
-  val rdData = WireDefault(io.dmem.rdData) // Default: read from DMEM
-
-
-  // default: connect CPU <-> DMEM
+  val rdData = WireDefault(io.dmem.rdData)
   io.dmem <> io.cpu
   io.cpu.stall := io.dmem.stall
 
@@ -40,15 +37,15 @@ class MemArbiter extends Module {
   val state  = RegInit(sIdle)
 
   switch(state) {
-    is(sIdle) {
-      when(io.cpu.wrAddress === FPU_BASE.U) {
+    is(sIdle) { 
+      when( (io.cpu.wrAddress === FPU_BASE.U) && (io.cpu.wrEnable(0)) ) { // FPU_BASE = 0x20000000
         aReg := io.cpu.wrData
         state := sGotA
       }
     }
 
     is(sGotA) {
-      when(io.cpu.wrAddress === FPU_TOP.U) {
+      when( (io.cpu.wrAddress === FPU_TOP.U) && (io.cpu.wrEnable(0)) ) { // FPU_TOP  = 0x2FFFFFFF
         bReg := io.cpu.wrData
         state := sGotB
       }
@@ -79,5 +76,5 @@ class MemArbiter extends Module {
     io.dmem.wrEnable := VecInit(Seq.fill(4)(false.B))
   }
 
-  io.cpu.rdData := RegNext(rdData)
+  io.cpu.rdData := RegNext(rdData) // Register the read data to avoid timing issues
 }
