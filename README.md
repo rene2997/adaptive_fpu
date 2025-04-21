@@ -39,7 +39,7 @@ docker run -it \
 
 ## TCL-script in Vivado
 
-To run the TCL-script ensure that Vivado is in your system path. 
+To run the TCL-script ensure that Vivado is in your system path. The command prompt is needed for this. 
 ```bash
 vivado -mode batch -source setup.tcl
 ```
