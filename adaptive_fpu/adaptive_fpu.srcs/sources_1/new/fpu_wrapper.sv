@@ -1,8 +1,10 @@
-module fpu (
-    input clk,
+module fpu_wrapper (
+    input clock,
+    input reset,
+    input start,
+    input [1:0] op,
     input [31:0] a,
     input [31:0] b,
-    input [1:0] op,
     output reg [31:0] result,
     output reg done
 

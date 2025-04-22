@@ -84,6 +84,5 @@ object CSR {
 
 // Added for memoryArbiter FPU index range
 object MemMap {
-  val FPU_BASE = 0x20000000
-  val FPU_TOP  = 0x2FFFFFFF
+  val FPU_OP = 0x7FFFFFFF
 }

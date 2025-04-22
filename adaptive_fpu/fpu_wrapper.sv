@@ -22,7 +22,7 @@ module fpu_wrapper #(
   typedef enum logic [1:0] { IDLE, WAIT_ACK, WAIT_Z } state_t;
   state_t state;
 
-  multiplier core_inst (
+  reconfig_module core_inst (
     .clk          (clock),
     .rst          (reset),
     .input_a      (a),

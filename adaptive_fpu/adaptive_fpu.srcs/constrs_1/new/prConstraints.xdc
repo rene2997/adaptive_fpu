@@ -1,10 +1,13 @@
-add_cells_to_pblock [get_pblocks pblock_fpu] [get_cells -quiet [list cpu/fpu]]
+create_pblock pblock_reconfig_module
+add_cells_to_pblock [get_pblocks pblock_reconfig_module] [get_cells -quiet [list fpu]]
+resize_pblock [get_pblocks pblock_reconfig_module] -add {SLICE_X38Y15:SLICE_X63Y47}
+resize_pblock [get_pblocks pblock_reconfig_module] -add {DSP48_X1Y6:DSP48_X1Y17}
+resize_pblock [get_pblocks pblock_reconfig_module] -add {RAMB18_X1Y6:RAMB18_X2Y17}
+resize_pblock [get_pblocks pblock_reconfig_module] -add {RAMB36_X1Y3:RAMB36_X2Y8}
+set_property RESET_AFTER_RECONFIG true [get_pblocks pblock_reconfig_module]
+set_property SNAPPING_MODE ON [get_pblocks pblock_reconfig_module]
+
+set_property HD.RECONFIGURABLE true [get_cells fpu]
 
 
-create_pblock pblock_fpu
-resize_pblock [get_pblocks pblock_fpu] -add {SLICE_X28Y25:SLICE_X71Y74}
-resize_pblock [get_pblocks pblock_fpu] -add {DSP48_X1Y10:DSP48_X1Y29}
-resize_pblock [get_pblocks pblock_fpu] -add {RAMB18_X1Y10:RAMB18_X1Y29}
-resize_pblock [get_pblocks pblock_fpu] -add {RAMB36_X1Y5:RAMB36_X1Y14}
-set_property RESET_AFTER_RECONFIG true [get_pblocks pblock_fpu]
-set_property SNAPPING_MODE ON [get_pblocks pblock_fpu]
+
