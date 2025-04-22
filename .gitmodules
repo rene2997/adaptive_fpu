@@ -1,3 +1,0 @@
-[submodule "external/fpu"]
-	path = external/fpu
-	url = https://github.com/dawsonjon/fpu
