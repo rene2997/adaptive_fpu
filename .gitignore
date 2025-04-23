@@ -71,3 +71,4 @@ data*.hex
 # Chisel/Verilog generated files
 wildcat/generated/
 wildcat/data*.hex
+verilator/fp_app.out

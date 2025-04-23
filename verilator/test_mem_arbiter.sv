@@ -12,17 +12,18 @@ module test_mem_arbiter;
 
   // Instantiate DUT
   WildcatTop dut (
-    .clock(clk),
-    .reset(rst),
-    .io_led(led),
-    .io_tx(tx),
-    .io_rx(rx)
-  );
+               .clock(clk),
+               .reset(rst),
+               .io_led(led),
+               .io_tx(tx),
+               .io_rx(rx)
+             );
 
   // Clock generation
   always #5 clk = ~clk;
 
-  initial begin
+  initial
+  begin
     // Dump VCD for waveform
     $dumpfile("tb.vcd");
     $dumpvars(0, test_mem_arbiter);
