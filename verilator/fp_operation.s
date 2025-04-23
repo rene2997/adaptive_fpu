@@ -2,7 +2,8 @@
     .globl _start
 _start:
     
-    lui x5, 0x20000      # Assuming DMEM base = 0x2000_0000
+    li x5, 0x8100000     # Assuming DMEM base = 0x0000_0000
+    addi x1, x1, 1000
     sw x1, 0(x5)
     lw x6, 0(x5)
     
