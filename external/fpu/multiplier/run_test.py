@@ -39,7 +39,6 @@ def match(x, y):
 
 
 def run_test(stimulus_a, stimulus_b):
-
     test = subprocess.Popen("c_test/test", stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     stim_a = open("stim_a", 'w');
     stim_b = open("stim_b", 'w');

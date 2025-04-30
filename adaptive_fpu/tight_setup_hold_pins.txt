@@ -2,5 +2,4 @@
 | Launch Setup Clock | Launch Hold Clock | Pin                    |
 +====================+===================+========================+
 | sys_clk_pin        | sys_clk_pin       | tx/buf_/stateReg_reg/D |
-| sys_clk_pin        | sys_clk_pin       | cpu/pcReg_reg[0]/D     |
 +--------------------+-------------------+------------------------+

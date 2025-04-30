@@ -6,6 +6,7 @@ import chisel3.util._
 
 class MemArbiter extends Module {
   val io = IO(new Bundle {
+    val sw = Input(UInt(2.W))
     val cpu = Flipped(new MemIO)
     val dmem = new MemIO() // flipped within ScratchPadMem
     val fpu = Flipped(new FpuIO())
@@ -30,35 +31,28 @@ class MemArbiter extends Module {
   io.fpu.op := opReg
   io.fpu.start := startReg
 
-  // FSM: idle -> gotA -> gotB -> start -> wait
+
   val sIdle = 0.U
   val sGotA = 1.U
   val sGotB = 2.U
   val sWait = 3.U
   val state = RegInit(sIdle)
 
-  switch(state) {
+  switch(state)
+   {
+    
     is(sIdle) {
-      when(
-        (io.cpu.wrAddress(31, 12) === FPU_OP.U(32.W)(31, 12)) && (io.cpu
-          .wrEnable(0))
-      ) { // FPU_OP = 0xFFFFF---
+      when ((io.cpu.wrAddress(31, 12) === FPU_OP.U(32.W)(31, 12)) && (io.cpu.wrEnable(0))) {
         aReg := io.cpu.wrData
-        opReg := io.cpu.wrAddress(
-          1,
-          0
-        ) // opReg determines the operation, the lower 2 bits of the address
+        opReg := io.sw(1, 0)
         state := sGotA
       }
     }
 
     is(sGotA) {
-      when(
-        (io.cpu.wrAddress(31, 12) === FPU_OP.U(32.W)(31, 12)) && (io.cpu
-          .wrEnable(0))
-      ) { // FPU_OP = 0xFFFFF---
+      when((io.cpu.wrAddress(31, 12) === FPU_OP.U(32.W)(31, 12)) && (io.cpu.wrEnable(0))) {
         bReg := io.cpu.wrData
-        doneReg := false.B // Reset doneReg when receiving new data
+        doneReg := false.B
         state := sGotB
       }
     }
@@ -75,20 +69,19 @@ class MemArbiter extends Module {
         state := sIdle
       }
     }
+
   }
 
-  // Override memory read result when accessing FPU and done
-  val fpuRead =
-    (io.cpu.rdAddress(31, 12) === FPU_OP.U(32.W)(31, 12)) // FPU_OP = 0xFFFFF---
+  val fpuRead = (io.cpu.rdAddress(31, 12) === FPU_OP.U(32.W)(31, 12))
 
   when(fpuRead && doneReg) {
     rdData := io.fpu.result
   }.otherwise {
-    rdData := io.dmem.rdData // ← preserve the real DMEM contents
+    rdData := io.dmem.rdData 
   }
   io.cpu.rdData := RegNext(rdData)
 
-  // Block DMEM writes in IO range
+  // Migrated from WildcatTop.scala
   when(io.cpu.wrAddress(31, 28) === "hf".U && io.cpu.wrEnable(0)) {
     io.dmem.wrEnable := VecInit(Seq.fill(4)(false.B))
   }

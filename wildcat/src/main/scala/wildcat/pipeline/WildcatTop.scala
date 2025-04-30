@@ -15,7 +15,8 @@ import chisel.lib.uart._
 class WildcatTop(file: String, dmemNrByte: Int = 4096) extends Module {
 
   val io = IO(new Bundle {
-    val led = Output(UInt(16.W))
+    val sw = Input(UInt(2.W))
+    val led = Output(UInt(16.W)) // For the operation of the fpu
     val tx = Output(UInt(1.W))
     val rx = Input(UInt(1.W))
   })
@@ -32,6 +33,7 @@ class WildcatTop(file: String, dmemNrByte: Int = 4096) extends Module {
   // Memory arbiter initialized for FP operations
   val memArbiter = Module(new MemArbiter())
   val fpu = Module(new FPU())
+  memArbiter.io.sw := io.sw
 
   // Connect CPU memory interface (StandardFive expects wrEnable as UInt)
   fpu.io.clock := this.clock

@@ -13,6 +13,7 @@ module test_mem_arbiter;
   // Instantiate DUT
   WildcatTop dut (
                .clock(clk),
+               .io_sw(2'b00),
                .reset(rst),
                .io_led(led),
                .io_tx(tx),
